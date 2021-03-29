@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Use Template{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+        <div class="card-body">
+          <div class="card-header">
+
+          {% if app.user != null %}
+            {% for response in response %}
+            {% set id = response.id %}
+<h2 class="text-center"><a class="nav-link" href="{{ path('feedbackresponse_edit', {'id': response.id}) }}">Use Template</a></h2>
+            {% endfor %}
+          <table class="table">
+            <tr>
+              <th>Template ID</th>
+              <th>Template Name</th>
+              <th>User Name</th>
+              <th>Feedback Type</th>
+
+            </tr>
+            {% for template in template %}
+            <tr>
+              <td>{{ template.id}}</td>
+              <td>{{ template.name }}</td>
+              <td>{{ template.user }}</td>
+              <td>{{ template.feedback }}</td>
+
+            </tr>
+            {% endfor %}
+          </table>
+<br>
+          <table class="table">
+            <tr>
+              <th>Applicant Name</th>
+              <th>Job Name</th>
+            </tr>
+            {% for applicantjob in applicantjob %}
+            <tr>
+              <td>{{ applicantjob.applicantname }}</td>
+              <td>{{ applicantjob.jobname }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+<br>
+<label class="form-label" for="statementfilter">Filter Statements</label>
+<input class="form-control" id="statementfilter" name="statementfilter" value="">
+          <table class="table">
+            <tr>
+              <th>Statement ID</th>
+              <th>Statement Name</th>
+              <th>Statement Selected</th>
+            </tr>
+            {% for statement in statement %}
+            {% set id = statement.id %}
+            {% set name = statement.name %}
+	<tbody name="statementtable" id="statementtable">
+            <tr>
+          {% if name == "Unselected" %}
+              <td><a class="nav-link" href="{{ path('statement_select', {'id': statement.id}) }}">{{ statement.id}}</a></td>
+          {% elseif name == "Selected" %}
+              <td><a class="nav-link" href="#">{{ statement.id}}</a></td>
+         {% endif %}
+              <td>{{ statement.statement }}</td>
+              <td>{{ statement.name }}</td>
+            </tr>
+	</tbody>
+            {% endfor %}
+          </table>
+          {% endif %}
+        </div>
+      </div>
+</div>
+ <script>
+$(document).ready(function(){
+  $("#statementfilter").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#statementtable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script> 
+{% endblock %}

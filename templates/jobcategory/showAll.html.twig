@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Job Categories{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+        <div class="card-body">
+          <div class="card-header">
+<h2 class="text-center">Job Category Details</h2>
+<button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('jobcategory_create') }}">Create Job Category</a></button></div>
+          {% if app.user != null %}
+<label class="form-label" for="jobcategoryfilter">Filter Job Categories</label>
+<input class="form-control" id="jobcategoryfilter" name="jobcategoryfilter" value="">
+          <table class="table">
+            <tr>
+              <th>Job Category ID</th>
+              <th>Job Category Name</th>
+              <th>Decommissioned</th>
+            </tr>
+            {% for jobcategory in jobcategory %}
+            {% set id = jobcategory.id %}
+	<tbody name="jobcategorytable" id="jobcategorytable">
+            <tr>
+              <td><a class="nav-link" href="{{ path('jobcategory_edit', {'id': jobcategory.id}) }}">{{ jobcategory.id}}</a></td>
+              <td>{{ jobcategory.name }}</td>
+              <td>{{ jobcategory.decommissioned ? 'Yes' : 'No' }}</td>
+            </tr>
+	</tbody>
+            {% endfor %}
+          </table>
+          {% endif %}
+        </div>
+      </div>
+</div>
+ <script>
+$(document).ready(function(){
+  $("#jobcategoryfilter").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#jobcategorytable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script> 
+{% endblock %}
+

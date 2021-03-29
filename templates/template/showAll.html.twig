@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Template{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+        <div class="card-body">
+          <div class="card-header">
+<h2 class="text-center">Template Details</h2>
+<button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('template_create') }}">Create Template</a></button></div>
+          {% if app.user != null %}
+<label class="form-label" for="templatefilter">Filter Templates</label>
+<input class="form-control" id="templatefilter" name="templatefilter" value="">
+          <table class="table">
+            <tr>
+              <th>Template ID</th>
+              <th>Template Name</th>
+              <th>Template Header ID</th>
+              <th>Decommissioned</th>
+            </tr>
+            {% for template in template %}
+            {% set id = template.id %}
+	<tbody name="templatetable" id="templatetable">
+            <tr>
+              <td><a class="nav-link" href="{{ path('template_edit', {'id': template.id}) }}">{{ template.id}}</a></td>
+              <td>{{ template.name }}</td>
+              <td>{{ template.header }}</td>
+              <td>{{ template.decommissioned ? 'Yes' : 'No' }}</td>
+            </tr>
+	</tbody>
+            {% endfor %}
+          </table>
+          {% endif %}
+        </div>
+      </div>
+</div>
+ <script>
+$(document).ready(function(){
+  $("#templatefilter").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#templatetable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script> 
+{% endblock %}
+

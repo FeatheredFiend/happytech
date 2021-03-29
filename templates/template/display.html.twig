@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Display Template{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+        <div class="card-body">
+          <div class="card-header">
+<h2 class="text-center">Display Template</h2>
+          {% if app.user != null %}
+
+          <table class="table">
+            <tr>
+              <th>Template ID</th>
+              <th>Template Name</th>
+              <th>User Name</th>
+              <th>Feedback Type</th>
+
+            </tr>
+            {% for template in template %}
+            <tr>
+              <td><a href="{{ path('email_applicants', {'id': template.id}) }}">{{ template.id}}</a></td>
+              <td>{{ template.name }}</td>
+              <td>{{ template.user }}</td>
+              <td>{{ template.feedback }}</td>
+
+            </tr>
+            {% endfor %}
+          </table>
+<br>
+          <table class="table">
+            <tr>
+              <th>Applicant Name</th>
+              <th>Job Name</th>
+              <th>Comment</th>
+            </tr>
+            {% for applicantjob in applicantjob %}
+            <tr>
+              <td>{{ applicantjob.applicantname }}</td>
+              <td>{{ applicantjob.jobname }}</td>
+         {% for feedback in feedback %}
+              <td>{{ feedback.comment }}</td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+<br>
+          <table class="table">
+            <tr>
+              <th>Statement</th>
+            </tr>
+            {% for statement in statement %}
+	<tbody name="statementtable" id="statementtable">
+            <tr>
+              <td>{{ statement.statement }}</td>
+            </tr>
+	</tbody>
+            {% endfor %}
+          </table>
+          {% endif %}
+        </div>
+      </div>
+</div>
+{% endblock %}
