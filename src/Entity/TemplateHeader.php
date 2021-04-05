@@ -6,9 +6,12 @@ use App\Repository\TemplateHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TemplateHeaderRepository::class)
+ * @UniqueEntity(fields={"user", "feedbacktype"}, message="Feedback Type is already applied to Template.")
+ * @UniqueEntity(fields="name", message="Template Header Name is already taken.")
  */
 class TemplateHeader
 {
@@ -37,14 +40,9 @@ class TemplateHeader
     private $templates;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $decommissioned;
 
     public function __construct()
     {
@@ -128,15 +126,4 @@ class TemplateHeader
 	return $this->name;
     }
 
-    public function getDecommissioned(): ?bool
-    {
-        return $this->decommissioned;
-    }
-
-    public function setDecommissioned(bool $decommissioned): self
-    {
-        $this->decommissioned = $decommissioned;
-
-        return $this;
-    }
 }

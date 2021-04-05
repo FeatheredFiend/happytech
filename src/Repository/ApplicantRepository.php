@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Applicant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Applicant|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,17 @@ class ApplicantRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Applicant::class);
+    }
+
+    /**
+     * @param string|null $term
+     */
+    public function getWithSearchQueryBuilder(?string $term): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('a')
+        ->orderBy('a.id', 'ASC');
+
+        return $qb;
     }
 
     // /**

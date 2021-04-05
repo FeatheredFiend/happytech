@@ -1,50 +1,55 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}View Feedback Types{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
 <div class="example-wrapper">
-        <div class="card-body">
-          <div class="card-header">
-<h2 class="text-center">Feedback Type Details</h2>
-<button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('feedbacktype_create') }}">Create FeedbackType</a></button></div>
-          {% if app.user != null %}
-<label class="form-label" for="feedbacktypefilter">Filter Feedback Types</label>
-<input class="form-control" id="feedbacktypefilter" name="feedbacktypefilter" value="">
-          <table class="table">
-            <tr>
-              <th>Feedback Type ID</th>
-              <th>Feedback Type Name</th>
-              <th>Decommissioned</th>
-            </tr>
-            {% for feedbacktype in feedbacktype %}
-            {% set id = feedbacktype.id %}
-	<tbody name="feedbacktypetable" id="feedbacktypetable">
-            <tr>
-              <td><a class="nav-link" href="{{ path('feedbacktype_edit', {'id': feedbacktype.id}) }}">{{ feedbacktype.id}}</a></td>
-              <td>{{ feedbacktype.name }}</td>
-              <td>{{ feedbacktype.decommissioned ? 'Yes' : 'No' }}</td>
-            </tr>
-	</tbody>
-            {% endfor %}
-          </table>
-          {% endif %}
-        </div>
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+         <h2 class="text-center">Feedback Type Details</h2>
+         <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('feedbacktype_create') }}">Create FeedbackType</a></button>
       </div>
+      {% if app.user != null %}
+      <label class="form-label" for="feedbacktypefilter">Filter Feedback Types</label>
+      <input class="form-control" id="feedbacktypefilter" name="feedbacktypefilter" value="">
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th>Feedback Type ID</th>
+               <th>Feedback Type Name</th>
+               <th>Decommissioned</th>
+            </tr>
+         </thead>
+         <tbody name="feedbacktypetable" id="feedbacktypetable">
+            {% for feedbacktype in pagination %}
+            {% set id = feedbacktype.id %}
+            <tr>
+               <td><a class="nav-link" href="{{ path('feedbacktype_edit', {'id': feedbacktype.id}) }}">{{ feedbacktype.id}}</a></td>
+               <td>{{ feedbacktype.name }}</td>
+               <td>{{ feedbacktype.decommissioned ? 'Yes' : 'No' }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
+      {% endif %}
+   </div>
 </div>
- <script>
-$(document).ready(function(){
-  $("#feedbacktypefilter").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#feedbacktypetable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
+</div>
+<script>
+   $(document).ready(function(){
+     $("#feedbacktypefilter").on("keyup", function() {
+       var value = $(this).val().toLowerCase();
+       $("#feedbacktypetable tr").filter(function() {
+         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+     });
+   });
 </script> 
 {% endblock %}

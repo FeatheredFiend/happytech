@@ -21,7 +21,6 @@ class TemplateHeaderType extends AbstractType
             ->add('name', TextType::class,['label' => 'Template Header Name'])
             ->add('user', EntityType::class,['class' => User::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'User Name'])
             ->add('feedbacktype', EntityType::class,['class' => FeedbackType::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Feedback Type'])
-	    ->add('decommissioned', ChoiceType::class,['choices'  => ['No' => false,'Yes' => true],'label' => 'Decommissioned'])
 
         ;
     }

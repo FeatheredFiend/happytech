@@ -24,7 +24,8 @@ class JobApplicantType extends AbstractType
             ->add('job', EntityType::class,['class' => Job::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Job Name'])
             ->add('applicant', EntityType::class,['class' => Applicant::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Applicant Name'])
             ->add('applicantresponded', ChoiceType::class,['choices'  => ['No' => false,'Yes' => true],'label' => 'Applicant Responded'])
-        ;
+            ->add('emailed', ChoiceType::class,['choices'  => ['No' => false,'Yes' => true],'label' => 'Applicant Emailed'])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

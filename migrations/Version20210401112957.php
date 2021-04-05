@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210329131456 extends AbstractMigration
+final class Version20210401112957 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,14 +20,14 @@ final class Version20210329131456 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE feedback_response DROP decommissioned');
-        $this->addSql('ALTER TABLE job_applicant DROP decommissioned');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_CAAD10195E237E06 ON applicant (name)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_CAAD1019E7927C74 ON applicant (email)');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE feedback_response ADD decommissioned TINYINT(1) NOT NULL');
-        $this->addSql('ALTER TABLE job_applicant ADD decommissioned TINYINT(1) NOT NULL');
+        $this->addSql('DROP INDEX UNIQ_CAAD10195E237E06 ON applicant');
+        $this->addSql('DROP INDEX UNIQ_CAAD1019E7927C74 ON applicant');
     }
 }

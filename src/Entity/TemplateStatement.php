@@ -4,8 +4,18 @@ namespace App\Entity;
 
 use App\Repository\TemplateStatementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(name="template_statement", 
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="unique_row", 
+ *            columns={"template_id", "statement_id"})
+ *    }
+ * )
+ * @UniqueEntity(fields={"template", "statement"}, message="Statement is already applied to Template.")
  * @ORM\Entity(repositoryClass=TemplateStatementRepository::class)
  */
 class TemplateStatement
@@ -28,11 +38,6 @@ class TemplateStatement
      * @ORM\JoinColumn(nullable=false)
      */
     private $statement;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $decommissioned;
 
     public function getId(): ?int
     {
@@ -69,15 +74,4 @@ class TemplateStatement
         return $this->statement;
     }
 
-    public function getDecommissioned(): ?bool
-    {
-        return $this->decommissioned;
-    }
-
-    public function setDecommissioned(bool $decommissioned): self
-    {
-        $this->decommissioned = $decommissioned;
-
-        return $this;
-    }
 }

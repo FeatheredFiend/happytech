@@ -18,7 +18,7 @@ class TemplateType extends AbstractType
     {
         $builder
             ->add('name', TextType::class,['label' => 'Template Name'])
-            ->add('header', EntityType::class,['class' => TemplateHeader::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');},'choice_label' => 'name', 'label' => 'Template Header'])
+            ->add('header', EntityType::class,['class' => TemplateHeader::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u');},'choice_label' => 'name', 'label' => 'Template Header'])
 	    ->add('decommissioned', ChoiceType::class,['choices'  => ['No' => false,'Yes' => true],'label' => 'Decommissioned'])
 
         ;

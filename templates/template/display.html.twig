@@ -1,69 +1,84 @@
-{% extends 'base.html.twig' %}
-
 {% block title %}Display Template{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
 <div class="example-wrapper">
-        <div class="card-body">
-          <div class="card-header">
-<h2 class="text-center">Display Template</h2>
-          {% if app.user != null %}
-
-          <table class="table">
-            <tr>
-              <th>Template ID</th>
-              <th>Template Name</th>
-              <th>User Name</th>
-              <th>Feedback Type</th>
-
-            </tr>
-            {% for template in template %}
-            <tr>
-              <td><a href="{{ path('email_applicants', {'id': template.id}) }}">{{ template.id}}</a></td>
-              <td>{{ template.name }}</td>
-              <td>{{ template.user }}</td>
-              <td>{{ template.feedback }}</td>
-
-            </tr>
-            {% endfor %}
-          </table>
-<br>
-          <table class="table">
-            <tr>
-              <th>Applicant Name</th>
-              <th>Job Name</th>
-              <th>Comment</th>
-            </tr>
-            {% for applicantjob in applicantjob %}
-            <tr>
-              <td>{{ applicantjob.applicantname }}</td>
-              <td>{{ applicantjob.jobname }}</td>
-         {% for feedback in feedback %}
-              <td>{{ feedback.comment }}</td>
-            {% endfor %}
-            </tr>
-            {% endfor %}
-          </table>
-<br>
-          <table class="table">
-            <tr>
-              <th>Statement</th>
-            </tr>
-            {% for statement in statement %}
-	<tbody name="statementtable" id="statementtable">
-            <tr>
-              <td>{{ statement.statement }}</td>
-            </tr>
-	</tbody>
-            {% endfor %}
-          </table>
-          {% endif %}
-        </div>
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+        <div class="row justify-content-center">
+         <h2 class="text-center" style="text-align: center;">Happytech Feedback</h2>
+         </div>
+         <br>
+         <br>
+         <br>
+         <br>
+         {% if app.user != null %}
+         <table class="table table-striped" style="width: 100%;">
+            <thead>
+               <tr>
+                  <th>Template ID</th>
+                  <th>Template Name</th>
+                  <th>User Name</th>
+                  <th>Feedback Type</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for template in template %}
+               <tr>
+                  <td style="text-align: center; width:25%">{{ template.id}}</td>
+                  <td style="text-align: center; width:25%">{{ template.name }}</td>
+                  <td style="text-align: center; width:25%">{{ template.user }}</td>
+                  <td style="text-align: center; width:25%">{{ template.feedback }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         <br>
+         <br>
+         <br>
+         <br>
+         <table class="table table-striped" style="width: 100%;">
+            <thead>
+               <tr>
+                  <th>Applicant Name</th>
+                  <th>Job Name</th>
+                  <th>Comment</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for applicantjob in applicantjob %}
+               <tr>
+                  <td style="text-align: center; width:33%">{{ applicantjob.applicantname }}</td>
+                  <td style="text-align: center; width:33%">{{ applicantjob.jobname }}</td>
+                  {% for response in response %}
+                  <td style="text-align: center; width:33%">{{ response.comment }}</td>
+                  {% endfor %}
+               </tr>
+            <tbody>
+               {% endfor %}
+         </table>
+         <br>
+         <br>
+         <br>
+         <br>
+         <table class="table table-striped" style="width: 100%;">
+            <thead>
+               <tr>
+                  <th>Feedback Statements</th>
+               </tr>
+            </thead>
+            <tbody name="statementtable" id="statementtable">
+               {% for statement in statement %}
+               <tr>
+                  <td style="text-align: center; width:100%">{{ statement.statement }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         {% endif %}
       </div>
+   </div>
 </div>
 {% endblock %}

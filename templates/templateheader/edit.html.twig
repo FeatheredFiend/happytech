@@ -10,7 +10,7 @@
 
 <div class="example-wrapper">
         <div class="card-body">
-          <div class="card-header">Edit Template Header Details</div>
+          <div class="card-header table-responsive-xl">Edit Template Header Details</div>
           {% if app.user != null %}
           {{ form_start(form) }}
           <div class="form_group">
@@ -26,11 +26,6 @@
           <div class="form_group">
             <div class="col-md-12 mb-3">
               {{ form_row(form.feedbacktype, {'attr': {'class': 'form-control'}}) }}
-            </div>
-          </div>
-          <div class="form_group">
-            <div class="col-md-12 mb-3">
-              {{ form_row(form.decommissioned, {'attr': {'class': 'form-control'}}) }}
             </div>
           </div>
           <div class="form-group">

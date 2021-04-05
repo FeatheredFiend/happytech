@@ -1,2 +1,0 @@
-1
-INSERT INTO feedback_response_statement(feedbackresponse_id, statement_id) VALUES ('1','1')

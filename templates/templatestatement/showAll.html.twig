@@ -1,51 +1,55 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}View Template Statements{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
 <div class="example-wrapper">
-        <div class="card-body">
-          <div class="card-statement">
-<h2 class="text-center">Template Statement Details</h2>
-<button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('templatestatement_create') }}">Create Template Statement</a></button></div>
-          {% if app.user != null %}
-<label class="form-label" for="statementfilter">Filter Template Statements</label>
-<input class="form-control" id="statementfilter" name="statementfilter" value="">
-          <table class="table">
-            <tr>
-              <th>Template Statement ID</th>
-              <th>Template</th>
-              <th>Statement</th>
-            </tr>
-            {% for templatestatement in templatestatement %}
-            {% set id = templatestatement.id %}
-	<tbody name="statementtable" id="statementtable">
-            <tr>
-              <td><a class="nav-link" href="{{ path('templatestatement_edit', {'id': templatestatement.id}) }}">{{ templatestatement.id}}</a></td>
-              <td>{{ templatestatement.template }}</td>
-              <td>{{ templatestatement.statement }}</td>
-            </tr>
-	</tbody>
-            {% endfor %}
-          </table>
-          {% endif %}
-        </div>
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+         <h2 class="text-center">Template Statement Details</h2>
+         <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('templatestatement_create') }}">Create Template Statement</a></button>
       </div>
+      {% if app.user != null %}
+      <label class="form-label" for="statementfilter">Filter Template Statements</label>
+      <input class="form-control" id="statementfilter" name="statementfilter" value="">
+         <table class="table table-striped">
+            <thead>
+            <tr>
+               <th>Template Statement ID</th>
+               <th>Template</th>
+               <th>Statement</th>
+            </tr>
+            </thead>
+            <tbody name="statementtable" id="statementtable">
+               {% for templatestatement in pagination %}
+               {% set id = templatestatement.id %}
+               <tr>
+                  <td><a class="nav-link" href="{{ path('templatestatement_edit', {'id': templatestatement.id}) }}">{{ templatestatement.id}}</a></td>
+                  <td>{{ templatestatement.template }}</td>
+                  <td>{{ templatestatement.statement }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
+         {% endif %}
+   </div>
 </div>
- <script>
-$(document).ready(function(){
-  $("#statementfilter").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#statementtable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
+</div>
+<script>
+   $(document).ready(function(){
+     $("#statementfilter").on("keyup", function() {
+       var value = $(this).val().toLowerCase();
+       $("#statementtable tr").filter(function() {
+         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+     });
+   });
 </script> 
 {% endblock %}
-

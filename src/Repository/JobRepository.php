@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Job;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+
+
 
 /**
  * @method Job|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +21,18 @@ class JobRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Job::class);
     }
+     
+    /**
+     * @param string|null $term
+     */
+    public function getWithSearchQueryBuilder(?string $term): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('a')
+        ->orderBy('a.id', 'ASC');
+
+        return $qb;
+    }
+
 
     // /**
     //  * @return Job[] Returns an array of Job objects

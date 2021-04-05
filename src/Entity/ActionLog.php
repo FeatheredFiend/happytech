@@ -27,6 +27,23 @@ class ActionLog
      */
     private $action;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="actionLogs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TableList::class, inversedBy="actionLogs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tablename;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $rownumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,5 +71,47 @@ class ActionLog
         $this->action = $action;
 
         return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTablename(): ?TableList
+    {
+        return $this->tablename;
+    }
+
+    public function setTablename(?TableList $tablename): self
+    {
+        $this->tablename = $tablename;
+
+        return $this;
+    }
+
+    public function getRownumber(): ?int
+    {
+        return $this->rownumber;
+    }
+
+    public function setRownumber(int $rownumber): self
+    {
+        $this->rownumber = $rownumber;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->timestamp;
+        return $this->tablename;
     }
 }

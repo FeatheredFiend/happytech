@@ -5,16 +5,22 @@
 <meta charset="UTF-8" />
 <title>{% block title %}Welcome!{% endblock %}</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css"> 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 {% block stylesheets %}{% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 70px;">
-	<a class="navbar-brand" href="{{ path('homepage') }}">HappyTech Recruitment Tool</a>
+   {% if app.user %}
+	<a class="navbar-brand" href="{{ path('homepage') }}">HappyTech Recruitment Tool - {{ app.user }}</a>
+{% else %}
+	<a class="navbar-brand" href="{{ path('app_login') }}">HappyTech Recruitment Tool</a>
+   {% endif %}
 		<div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
 			<ul class="nav navbar-nav navbar-right">
 			{% if app.user %}
@@ -44,6 +50,8 @@
 										<a class="dropdown-item" href="{{ path('templateheader_show') }}">Template Headers</a>
 										<a class="dropdown-item" href="{{ path('template_show') }}">Templates</a>
 										<a class="dropdown-item" href="{{ path('templatestatement_show') }}">Template Statements</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="{{ path('action_log') }}">Action Log</a>
 									</div>
 							</ul>
 

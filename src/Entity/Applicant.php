@@ -6,9 +6,12 @@ use App\Repository\ApplicantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ApplicantRepository::class)
+ * @UniqueEntity(fields="name", message="Name is already taken.")
+ * @UniqueEntity(fields="email", message="Email is already taken.")
  */
 class Applicant
 {
@@ -20,12 +23,12 @@ class Applicant
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -43,6 +46,11 @@ class Applicant
      * @ORM\Column(type="boolean")
      */
     private $decommissioned;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $cv;
 
     public function __construct()
     {
@@ -152,6 +160,18 @@ class Applicant
     public function setDecommissioned(bool $decommissioned): self
     {
         $this->decommissioned = $decommissioned;
+
+        return $this;
+    }
+
+    public function getCv(): ?string
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?string $cv): self
+    {
+        $this->cv = $cv;
 
         return $this;
     }

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block title %}View Action Logs{% endblock %}
+{% block body %}
+<style>
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="example-wrapper">
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+         <h2 class="text-center">Action Log Details</h2>
+         {% if app.user != null %}
+         <label class="form-label" for="actionlogfilter">Filter Action Logs</label>
+         <input class="form-control" id="actionlogfilter" name="actionlogfilter" value="">
+         <table class="table table-striped">
+            <thead>
+               <tr>
+                  <th>Action Log ID</th>
+                  <th>Timestamp</th>
+                  <th>Action</th>
+                  <th>User</th>
+                  <th>Table</th>
+                  <th>Row</th>
+               </tr>
+            </thead>
+            <tbody name="actionlogtable" id="actionlogtable">
+               {% for actionlog in pagination %}
+               {% set id = actionlog.id %}
+               <tr>
+                  <td>{{ actionlog.id}}</td>
+                  <td>{{ actionlog.timestamp|date("d/m/Y") }}</td>
+                  <td>{{ actionlog.action }}</td>
+                  <td>{{ actionlog.user }}</td>
+                  <td>{{ actionlog.tablename}}</td>
+                  <td>{{ actionlog.rownumber}}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
+         {% endif %}
+      </div>
+   </div>
+</div>
+<script>
+   $(document).ready(function(){
+     $("#actionlogfilter").on("keyup", function() {
+       var value = $(this).val().toLowerCase();
+       $("#actionlogtable tr").filter(function() {
+         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+     });
+   });
+</script> 
+{% endblock %}

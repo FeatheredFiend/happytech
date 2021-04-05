@@ -1,53 +1,57 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}View Feedback Responses{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
 <div class="example-wrapper">
-        <div class="card-body">
-          <div class="card-header">
-<h2 class="text-center">Feedback Response Details</h2>
-          {% if app.user != null %}
-<label class="form-label" for="feedbackresponsefilter">Filter Feedback Responses</label>
-<input class="form-control" id="feedbackresponsefilter" name="feedbackresponsefilter" value="">
-          <table class="table">
-            <tr>
-              <th>Feedback Response ID</th>
-              <th>Template</th>
-              <th>Job</th>
-              <th>Applicant</th>
-              <th>Comment</th>
-            </tr>
-            {% for feedbackresponse in feedbackresponse %}
-            {% set id = feedbackresponse.id %}
-	<tbody name="feedbackresponsetable" id="feedbackresponsetable">
-            <tr>
-              <td><a class="nav-link" href="{{ path('feedbackresponse_edit', {'id': feedbackresponse.id}) }}">{{ feedbackresponse.id}}</a></td>
-              <td>{{ feedbackresponse.template }}</td>
-              <td>{{ feedbackresponse.job }}</td>
-              <td>{{ feedbackresponse.applicant }}</td>
-              <td>{{ feedbackresponse.comment }}</td>
-            </tr>
-	</tbody>
-            {% endfor %}
-          </table>
-          {% endif %}
-        </div>
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+         <h2 class="text-center">Feedback Response Details</h2>
+         {% if app.user != null %}
+         <label class="form-label" for="feedbackresponsefilter">Filter Feedback Responses</label>
+         <input class="form-control" id="feedbackresponsefilter" name="feedbackresponsefilter" value="">
+         <table class="table table-striped">
+            <thead>
+               <tr>
+                  <th>Feedback Response ID</th>
+                  <th>Template</th>
+                  <th>Job</th>
+                  <th>Applicant</th>
+                  <th>Uploaded PDF Feedback</th>
+               </tr>
+            </thead>
+            <tbody name="feedbackresponsetable" id="feedbackresponsetable">
+               {% for feedbackresponse in pagination %}
+               {% set id = feedbackresponse.id %}
+               <tr>
+                  <td><a class="nav-link" href="{{ path('feedbackresponse_edit', {'id': feedbackresponse.id}) }}">{{ feedbackresponse.id}}</a></td>
+                  <td>{{ feedbackresponse.template }}</td>
+                  <td>{{ feedbackresponse.job }}</td>
+                  <td>{{ feedbackresponse.applicant }}</td>
+                  <td><a href="{{ asset('uploads/feedback/' ~ feedbackresponse.feedback) }}">{{ feedbackresponse.feedback }}</a></td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
+         {% endif %}
       </div>
+   </div>
 </div>
- <script>
-$(document).ready(function(){
-  $("#feedbackresponsefilter").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#feedbackresponsetable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
+<script>
+   $(document).ready(function(){
+     $("#feedbackresponsefilter").on("keyup", function() {
+       var value = $(this).val().toLowerCase();
+       $("#feedbackresponsetable tr").filter(function() {
+         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+     });
+   });
 </script> 
 {% endblock %}

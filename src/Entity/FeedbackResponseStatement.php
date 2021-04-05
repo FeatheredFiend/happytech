@@ -4,8 +4,17 @@ namespace App\Entity;
 
 use App\Repository\FeedbackResponseStatementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(name="feedback_response_statement", 
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="unique_row", 
+ *            columns={"feedbackresponse_id", "statement_id"})
+ *    }
+ * )
+ * 
  * @ORM\Entity(repositoryClass=FeedbackResponseStatementRepository::class)
  */
 class FeedbackResponseStatement

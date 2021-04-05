@@ -49,12 +49,17 @@ class FeedbackResponse
      * @ORM\ManyToOne(targetEntity=Job::class, inversedBy="feedbackResponses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $job;
+    private $jobid;
 
     /**
      * @ORM\OneToMany(targetEntity=FeedbackResponseStatement::class, mappedBy="feedbackresponse")
      */
     private $feedbackResponseStatements;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $feedback;
 
     public function __construct()
     {
@@ -106,17 +111,17 @@ class FeedbackResponse
     {
         return $this->template;
         return $this->applicant;
-        return $this->job;
+        return $this->jobid;
     }
 
     public function getJob(): ?Job
     {
-        return $this->job;
+        return $this->jobid;
     }
 
-    public function setJob(?Job $job): self
+    public function setJob(?Job $jobid): self
     {
-        $this->job = $job;
+        $this->job = $jobid;
 
         return $this;
     }
@@ -147,6 +152,18 @@ class FeedbackResponse
                 $feedbackResponseStatement->setFeedbackresponse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFeedback(): ?string
+    {
+        return $this->feedback;
+    }
+
+    public function setFeedback(string $feedback): self
+    {
+        $this->feedback = $feedback;
 
         return $this;
     }

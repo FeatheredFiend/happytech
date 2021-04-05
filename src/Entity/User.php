@@ -5,8 +5,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Email is already taken.")
  */
 class User implements UserInterface
 {
@@ -48,9 +51,15 @@ class User implements UserInterface
      */
     private $decommissioned;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ActionLog::class, mappedBy="user")
+     */
+    private $actionLogs;
+
     public function __construct()
     {
         $this->templateHeaders = new ArrayCollection();
+        $this->actionLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,6 +191,36 @@ class User implements UserInterface
     public function setDecommissioned(bool $decommissioned): self
     {
         $this->decommissioned = $decommissioned;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ActionLog[]
+     */
+    public function getActionLogs(): Collection
+    {
+        return $this->actionLogs;
+    }
+
+    public function addActionLog(ActionLog $actionLog): self
+    {
+        if (!$this->actionLogs->contains($actionLog)) {
+            $this->actionLogs[] = $actionLog;
+            $actionLog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActionLog(ActionLog $actionLog): self
+    {
+        if ($this->actionLogs->removeElement($actionLog)) {
+            // set the owning side to null (unless already changed)
+            if ($actionLog->getUser() === $this) {
+                $actionLog->setUser(null);
+            }
+        }
 
         return $this;
     }

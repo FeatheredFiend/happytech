@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\JobApplicantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @UniqueEntity(fields={"job", "applicant"}, message="Applicant is already applied to Job.")
  * @ORM\Entity(repositoryClass=JobApplicantRepository::class)
  */
 class JobApplicant
@@ -33,6 +35,11 @@ class JobApplicant
      * @ORM\Column(type="boolean")
      */
     private $applicantresponded;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $emailed;
 
     public function getId(): ?int
     {
@@ -80,6 +87,18 @@ class JobApplicant
         return $this->job;
         return $this->applicant;
         return $this->applicantresponded;
+    }
+
+    public function getEmailed(): ?bool
+    {
+        return $this->emailed;
+    }
+
+    public function setEmailed(bool $emailed): self
+    {
+        $this->emailed = $emailed;
+
+        return $this;
     }
 
 }

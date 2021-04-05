@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Repository\TableListRepository;
+use App\Service\ActionLog;
+
 
 class RegistrationController extends AbstractController
 {
@@ -21,7 +24,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/registration", name="registration")
      */
-    public function index(Request $request)
+    public function index(Request $request, ActionLog $actionLog, TableListRepository $tablelistRepository)
     {
         $user = new User();
 
@@ -40,6 +43,11 @@ class RegistrationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            $userid = $user->getId();
+            $tablename = $tablelistRepository->findBy(array('name' => 'User'),array('name' => 'ASC'),1 ,0)[0];
+            $tablenameid = $tablename->getId();
+            $actionLog->addAction("Added User",$userid,$tablenameid,$userid);
 
             return $this->redirectToRoute('app_login');
         }

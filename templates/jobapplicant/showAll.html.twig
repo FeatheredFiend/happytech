@@ -1,52 +1,59 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}View Job Applicants{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+   .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+   .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
 <div class="example-wrapper">
-        <div class="card-body">
-          <div class="card-header">
-<h2 class="text-center">Job Applicant Details</h2>
-<button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('jobapplicant_create') }}">Create Job Applicant</a></button></div>
-          {% if app.user != null %}
-<label class="form-label" for="jobapplicantfilter">Filter Job Applicants</label>
-<input class="form-control" id="jobapplicantfilter" name="jobapplicantfilter" value="">
-          <table class="table">
-            <tr>
-              <th>Job Applicant ID</th>
-              <th>Job</th>
-              <th>Applicant</th>
-              <th>Applicant Responded</th>
-            </tr>
-            {% for jobapplicant in jobapplicant %}
-            {% set id = jobapplicant.id %}
-	<tbody name="jobapplicanttable" id="jobapplicanttable">
-            <tr>
-              <td><a class="nav-link" href="{{ path('jobapplicant_edit', {'id': jobapplicant.id}) }}">{{ jobapplicant.id}}</a></td>
-              <td>{{ jobapplicant.job }}</td>
-              <td>{{ jobapplicant.applicant }}</td>
-              <td>{{ jobapplicant.applicantresponded ? 'Yes' : 'No' }}</td>
-            </tr>
-	</tbody>
-            {% endfor %}
-          </table>
-          {% endif %}
-        </div>
+   <div class="card-body">
+      <div class="card-header table-responsive-xl">
+         <h2 class="text-center">Job Applicant Details</h2>
+         <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('jobapplicant_create') }}">Create Job Applicant</a></button>
       </div>
+      {% if app.user != null %}
+      <label class="form-label" for="jobapplicantfilter">Filter Job Applicants</label>
+      <input class="form-control" id="jobapplicantfilter" name="jobapplicantfilter" value="">
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th>Job Applicant ID</th>
+               <th>Job</th>
+               <th>Applicant</th>
+               <th>Applicant Responded</th>
+               <th>Applicant Emailed</th>
+            </tr>
+         </thead>
+         <tbody name="jobapplicanttable" id="jobapplicanttable">
+            {% for jobapplicant in pagination %}
+            {% set id = jobapplicant.id %}
+            <tr>
+               <td><a class="nav-link" href="{{ path('jobapplicant_edit', {'id': jobapplicant.id}) }}">{{ jobapplicant.id}}</a></td>
+               <td>{{ jobapplicant.job }}</td>
+               <td>{{ jobapplicant.applicant }}</td>
+               <td>{{ jobapplicant.applicantresponded ? 'Yes' : 'No' }}</td>
+               <td>{{ jobapplicant.emailed ? 'Yes' : 'No' }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
+      {% endif %}
+   </div>
 </div>
- <script>
-$(document).ready(function(){
-  $("#jobapplicantfilter").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#jobapplicanttable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
+</div>
+<script>
+   $(document).ready(function(){
+     $("#jobapplicantfilter").on("keyup", function() {
+       var value = $(this).val().toLowerCase();
+       $("#jobapplicanttable tr").filter(function() {
+         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+     });
+   });
 </script> 
 {% endblock %}
