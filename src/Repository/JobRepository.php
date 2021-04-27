@@ -27,11 +27,56 @@ class JobRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('j', 'jc')
+        ->from('App\Entity\Job', 'j')
+        ->leftJoin('j.jobcategory', 'jc')
+        ->orderBy('j.id', 'ASC');
+
+
 
         return $qb;
     }
+
+    public function getWithSearchQueryBuilderJobOpen(?string $term, ?int $id): QueryBuilder
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('ja', 'a','j')
+        ->from('App\Entity\JobApplicant', 'ja')
+        ->leftJoin('ja.applicant', 'a')
+        ->leftJoin('ja.job', 'j')
+        ->where('ja.applicantresponded = 0 and j.id = ' . $id)
+        ->orderBy('ja.id', 'ASC');
+
+        return $qb;
+
+    }
+
+
+    public function getWithSearchQueryBuilderHomepage(?string $term): QueryBuilder
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('j.id', 'jc.name as category', 'j.name', 'j.description','j.duedate','SUM(CASE WHEN(ja.applicantresponded <> 1) and a.decommissioned = 0 then 1 else 0 end) as applicantcount')
+        ->from('App\Entity\JobCategory', 'jc')
+        ->leftJoin('jc.jobs', 'j')
+        ->leftJoin('j.jobs', 'ja')
+        ->leftJoin('ja.applicant', 'a')
+        ->where('j.decommissioned = 0 AND ja.emailed = 0')
+        ->groupby('j.name')
+        ->orderby('j.id','ASC');
+
+        return $qb;
+
+    }
+
+
+
+
+
+
 
 
     // /**

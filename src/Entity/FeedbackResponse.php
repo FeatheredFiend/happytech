@@ -49,7 +49,7 @@ class FeedbackResponse
      * @ORM\ManyToOne(targetEntity=Job::class, inversedBy="feedbackResponses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $jobid;
+    private $job;
 
     /**
      * @ORM\OneToMany(targetEntity=FeedbackResponseStatement::class, mappedBy="feedbackresponse")
@@ -111,17 +111,17 @@ class FeedbackResponse
     {
         return $this->template;
         return $this->applicant;
-        return $this->jobid;
+        return $this->job;
     }
 
     public function getJob(): ?Job
     {
-        return $this->jobid;
+        return $this->job;
     }
 
-    public function setJob(?Job $jobid): self
+    public function setJob(?Job $job): self
     {
-        $this->job = $jobid;
+        $this->job = $job;
 
         return $this;
     }

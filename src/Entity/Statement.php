@@ -41,6 +41,11 @@ class Statement
      */
     private $decommissioned;
 
+    /**
+     * @ORM\Column(type="string", length=2000)
+     */
+    private $statementtext;
+
     public function __construct()
     {
         $this->templateStatements = new ArrayCollection();
@@ -139,6 +144,18 @@ class Statement
     public function setDecommissioned(bool $decommissioned): self
     {
         $this->decommissioned = $decommissioned;
+
+        return $this;
+    }
+
+    public function getStatementtext(): ?string
+    {
+        return $this->statementtext;
+    }
+
+    public function setStatementtext(string $statementtext): self
+    {
+        $this->statementtext = $statementtext;
 
         return $this;
     }

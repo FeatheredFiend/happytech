@@ -10,27 +10,28 @@
       <div class="card-header table-responsive-xl">
          <h2 class="text-center">Open Jobs</h2>
          {% if app.user != null %}
-         <label class="form-label" for="jobfilter">Filter Jobs</label>
-         <input class="form-control" id="jobfilter" name="jobfilter" value="">
+            {{ knp_pagination_filter(pagination, {'jc.name': 'Category', 'j.name': 'Name', 'j.duedate': 'Due Date'}) }}
          <table id="homepagetable" class="table table-striped">
             <thead>
                <tr>
                   <th>Job ID</th>
                   <th>Job Category</th>
                   <th>Job Name</th>
-                  <th>Job Description</th>
                   <th>Job Due Date</th>
                   <th>Applicant Count</th>
                </tr>
             </thead>
             <tbody name="jobtable" id="jobtable">
-               {% for job in job %}
+               {% for job in pagination %}
                <tr>
-                  <td><a class="nav-link" href="{{ path('job_open', {'id': job.id}) }}">{{ job.id}}</a></td>
+                  {% if job.applicantcount > 0 %}
+                     <td><a class="nav-link" href="{{ path('job_open', {'id': job.id}) }}">{{ job.id}}</a></td>
+                     {% elseif job.applicantcount == 0 %}
+                     <td><a class="nav-link">{{ job.id}}</a></td>
+                  {% endif %}
                   <td>{{ job.category }}</td>
                   <td>{{ job.name }}</td>
-                  <td>{{ job.description }}</td>
-                  <td>{{ job.duedate }}</td>
+                  <td>{{ job.duedate|date('d-m-Y')  }}</td>
                   {% if job.applicantcount > 0 %}
                   <td>{{ job.applicantcount }}</td>
                   {% elseif job.applicantcount == 0 %}
@@ -45,14 +46,6 @@
    </div>
 </div>
 <script>
-   $(document).ready(function(){
-     $("#jobfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#jobtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
 $(document).ready(function(){
     $('#homepageTable').dataTable();
 });

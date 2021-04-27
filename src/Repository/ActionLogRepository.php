@@ -25,8 +25,13 @@ class ActionLogRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('al', 'u', 'tl')
+        ->from('App\Entity\ActionLog', 'al')
+        ->leftJoin('al.user', 'u')
+        ->leftJoin('al.tablename', 'tl')
+        ->orderBy('al.id', 'ASC');
 
         return $qb;
     }

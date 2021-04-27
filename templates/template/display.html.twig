@@ -1,4 +1,3 @@
-{% block title %}Display Template{% endblock %}
 {% block body %}
 <style>
    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -9,60 +8,17 @@
       <div class="card-header table-responsive-xl">
         <div class="row justify-content-center">
          <h2 class="text-center" style="text-align: center;">Happytech Feedback</h2>
+         <br>
+         {% for template in template %}
+            {% for applicantjob in applicantjob %}
+               <h3 class="text-center" style="text-align: center;">{{ applicantjob.applicantname }} - {{ applicantjob.jobname }}</h3>
+               <h4 class="text-center" style="text-align: center;">{{ template.feedback }}</h4>
+            {% endfor %}
+         {% endfor %}
          </div>
          <br>
          <br>
-         <br>
-         <br>
          {% if app.user != null %}
-         <table class="table table-striped" style="width: 100%;">
-            <thead>
-               <tr>
-                  <th>Template ID</th>
-                  <th>Template Name</th>
-                  <th>User Name</th>
-                  <th>Feedback Type</th>
-               </tr>
-            </thead>
-            <tbody>
-               {% for template in template %}
-               <tr>
-                  <td style="text-align: center; width:25%">{{ template.id}}</td>
-                  <td style="text-align: center; width:25%">{{ template.name }}</td>
-                  <td style="text-align: center; width:25%">{{ template.user }}</td>
-                  <td style="text-align: center; width:25%">{{ template.feedback }}</td>
-               </tr>
-               {% endfor %}
-            </tbody>
-         </table>
-         <br>
-         <br>
-         <br>
-         <br>
-         <table class="table table-striped" style="width: 100%;">
-            <thead>
-               <tr>
-                  <th>Applicant Name</th>
-                  <th>Job Name</th>
-                  <th>Comment</th>
-               </tr>
-            </thead>
-            <tbody>
-               {% for applicantjob in applicantjob %}
-               <tr>
-                  <td style="text-align: center; width:33%">{{ applicantjob.applicantname }}</td>
-                  <td style="text-align: center; width:33%">{{ applicantjob.jobname }}</td>
-                  {% for response in response %}
-                  <td style="text-align: center; width:33%">{{ response.comment }}</td>
-                  {% endfor %}
-               </tr>
-            <tbody>
-               {% endfor %}
-         </table>
-         <br>
-         <br>
-         <br>
-         <br>
          <table class="table table-striped" style="width: 100%;">
             <thead>
                <tr>
@@ -72,11 +28,39 @@
             <tbody name="statementtable" id="statementtable">
                {% for statement in statement %}
                <tr>
-                  <td style="text-align: center; width:100%">{{ statement.statement }}</td>
+                  <td style="text-align: center; width:100%; padding: 15px;">{{ statement.statementtext }}</td>
                </tr>
                {% endfor %}
             </tbody>
          </table>
+         <br>
+         <br>
+         <br>
+         <br>
+         <table class="table table-striped" style="width: 100%;">
+            <thead>
+               <tr>
+                  <th>Comments</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for applicantjob in applicantjob %}
+               <tr>
+                  {% for response in response %}
+                  <td style="text-align: center; width:33%; padding: 15px;">{{ response.comment }}</td>
+                  {% endfor %}
+               </tr>
+            <tbody>
+               {% endfor %}
+         </table>
+         <br>
+         <br>
+         <br>
+         <br>
+         {% for template in template %}
+         <p style="text-align: center;">Yours Sincerely,</p>
+         <p style="text-align: center;">{{ template.user }}</p>
+         {% endfor %}
          {% endif %}
       </div>
    </div>

@@ -25,8 +25,8 @@ class TableListRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->createQueryBuilder('tl')
+        ->orderBy('tl.id', 'ASC');
 
         return $qb;
     }

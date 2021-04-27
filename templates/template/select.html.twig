@@ -10,12 +10,13 @@
       <div class="card-header table-responsive-xl">
          <h2 class="text-center">Template Select</h2>
          {% if app.user != null %}
+               {{ knp_pagination_filter(pagination, {'t.name': 'Name', 'th.name': 'Template Header'}) }}
          <table class="table table-striped">
             <thead>
                <tr>
                   <th>Template ID</th>
-                  <th>Template name</th>
-                  <th>Template Header ID</th>
+                  <th>Template Name</th>
+                  <th>Template Header</th>
                </tr>
             </thead>
             <tbody>

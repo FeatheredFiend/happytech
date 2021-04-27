@@ -10,8 +10,7 @@
       <div class="card-header table-responsive-xl">
          <h2 class="text-center">Feedback Response Details</h2>
          {% if app.user != null %}
-         <label class="form-label" for="feedbackresponsefilter">Filter Feedback Responses</label>
-         <input class="form-control" id="feedbackresponsefilter" name="feedbackresponsefilter" value="">
+            {{ knp_pagination_filter(pagination, {'fr.template': 'Template', 'j.job': 'Job', 'a.applicant': 'Applicant', 'fr.feedback': 'Feedback'}) }}
          <table class="table table-striped">
             <thead>
                <tr>
@@ -44,14 +43,4 @@
       </div>
    </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#feedbackresponsefilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#feedbackresponsetable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

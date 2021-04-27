@@ -15,17 +15,20 @@
           {{ form_start(form) }}
           <div class="form_group">
             <div class="col-md-12 mb-3">
-              {{ form_row(form.template, {'attr': {'class': 'form-control'}}) }}
+              <input type="hidden" id="hiddenTemplate" name="feedback_response[template]">
+              {{ form_row(form.template, {'attr': {'class': 'form-control', 'disabled': 'true'}}) }}
             </div>
           </div>
           <div class="form_group">
             <div class="col-md-12 mb-3">
-              {{ form_row(form.job, {'attr': {'class': 'form-control'}}) }}
+              <input type="hidden" id="hiddenJob" name="feedback_response[job]">
+              {{ form_row(form.job, {'attr': {'class': 'form-control', 'disabled': 'true'}}) }}
             </div>
           </div>
           <div class="form_group">
             <div class="col-md-12 mb-3">
-              {{ form_row(form.applicant, {'attr': {'class': 'form-control'}}) }}
+              <input type="hidden" id="hiddenApplicant" name="feedback_response[applicant]">
+              {{ form_row(form.applicant, {'attr': {'class': 'form-control', 'disabled': 'true'}}) }}
             </div>
           </div>
           <div class="form_group">
@@ -50,4 +53,11 @@
         </div>
       </div>
 </div>
+<script>
+$(document).ready(function(){
+        $('#hiddenTemplate').val($('#feedback_response_template').val());
+        $('#hiddenJob').val($('#feedback_response_job').val());
+        $('#hiddenApplicant').val($('#feedback_response_applicant').val());
+});
+</script>
 {% endblock %}

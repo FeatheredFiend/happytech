@@ -29,6 +29,7 @@ class ApplicantRepository extends ServiceEntityRepository
         ->orderBy('a.id', 'ASC');
 
         return $qb;
+
     }
 
     // /**

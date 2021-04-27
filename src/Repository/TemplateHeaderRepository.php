@@ -25,8 +25,13 @@ class TemplateHeaderRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('th', 'u','ft')
+        ->from('App\Entity\TemplateHeader', 'th')
+        ->leftJoin('th.user', 'u')
+        ->leftJoin('th.feedbacktype', 'ft')
+        ->orderBy('th.id', 'ASC');
 
         return $qb;
     }

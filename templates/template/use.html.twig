@@ -51,8 +51,7 @@
             </tbody>
          </table>
          <br>
-         <label class="form-label" for="statementfilter">Filter Statements</label>
-         <input class="form-control" id="statementfilter" name="statementfilter" value="">
+      {{ knp_pagination_filter(pagination, {'s.statement': 'Name'}) }}
          <table class="table table-striped">
             <thead>
                <tr>
@@ -62,33 +61,30 @@
                </tr>
             </thead>
             <tbody name="statementtable" id="statementtable">
-               {% for statement in statement %}
-               {% set id = statement.id %}
-               {% set name = statement.name %}
+               {% for statement in pagination %}
+
+               {% set selected = statement.selected %}
                <tr>
-                  {% if name == "Unselected" %}
-                  <td><a class="nav-link" href="{{ path('statement_select', {'id': statement.id}) }}">{{ statement.id}}</a></td>
-                  {% elseif name == "Selected" %}
-                  <td><a class="nav-link" href="#">{{ statement.id}}</a></td>
+                  {% if selected == "0" %}
+                     {% set select = "Unselected" %}          
+                     <td><a class="nav-link" href="{{ path('statement_select', {'id': statement.id}) }}">{{ statement.id}}</a></td>
+                  {% elseif selected == "1" %}
+                     {% set select = "Selected" %} 
+                     <td><a class="nav-link" href="#">{{ statement.id}}</a></td>
                   {% endif %}
-                  <td>{{ statement.statement }}</td>
-                  <td>{{ statement.name }}</td>
+                  <td>{{ statement.statement}}</td>
+                  <td>{{ select }}</td>
                </tr>
                {% endfor %}
             </tbody>
          </table>
-         {% endif %}
+            {{ knp_pagination_render(pagination, null, {}, {
+            'align': 'center',
+            'size': 'large',
+            'rounded': true,
+            }) }}
+            {% endif %}
       </div>
    </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#statementfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#statementtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

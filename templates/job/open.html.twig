@@ -14,19 +14,24 @@ select {width: 33%;}
           <div class="card-header table-responsive-xl">
 <h2 class="text-center">Job Applicants</h2>
           {% if app.user != null %}
+                {{ knp_pagination_filter(pagination, {'j.name': 'Job', 'a.name': 'Applicant'}) }}
           <table class="table table-striped">
             <tr>
               <th>Job Name</th>
               <th>Applicant Name</th>
-
             </tr>
-            {% for job in job %}
+            {% for job in pagination %}
             <tr>
-              <td>{{ job.job }}</td>
-              <td><a class="nav-link" href="{{ path('template_select', {'name': job.applicant}) }}">{{ job.applicant}}</a></td>
+              <td>{{ job.job.name}}</td>
+              <td><a class="nav-link" href="{{ path('template_select', {'name': job.applicant.name}) }}">{{ job.applicant.name}}</a></td>
             </tr>
             {% endfor %}
           </table>
+         {{ knp_pagination_render(pagination, null, {}, {
+         'align': 'center',
+         'size': 'large',
+         'rounded': true,
+         }) }}
           {% endif %}
         </div>
       </div>

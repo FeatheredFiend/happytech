@@ -12,8 +12,7 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('jobapplicant_create') }}">Create Job Applicant</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="jobapplicantfilter">Filter Job Applicants</label>
-      <input class="form-control" id="jobapplicantfilter" name="jobapplicantfilter" value="">
+      {{ knp_pagination_filter(pagination, {'j.name': 'Job', 'a.name': 'Applicant', 'ja.applicantresponded': 'Responded', 'ja.emailed': 'Emailed'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
@@ -46,14 +45,5 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#jobapplicantfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#jobapplicanttable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}
+

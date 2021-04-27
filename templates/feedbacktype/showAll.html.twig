@@ -12,8 +12,7 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('feedbacktype_create') }}">Create FeedbackType</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="feedbacktypefilter">Filter Feedback Types</label>
-      <input class="form-control" id="feedbacktypefilter" name="feedbacktypefilter" value="">
+      {{ knp_pagination_filter(pagination, {'ft.name': 'Name', 'ft.decommissioned': 'Decommissioned'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
@@ -42,14 +41,4 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#feedbacktypefilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#feedbacktypetable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

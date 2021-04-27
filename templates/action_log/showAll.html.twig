@@ -10,8 +10,7 @@
       <div class="card-header table-responsive-xl">
          <h2 class="text-center">Action Log Details</h2>
          {% if app.user != null %}
-         <label class="form-label" for="actionlogfilter">Filter Action Logs</label>
-         <input class="form-control" id="actionlogfilter" name="actionlogfilter" value="">
+            {{ knp_pagination_filter(pagination, {'al.timestamp': 'Timestamp', 'al.action': 'Action', 'u.name': 'User', 'tl.name': 'Table', 'al.rownumber': 'Row'}) }}
          <table class="table table-striped">
             <thead>
                <tr>
@@ -46,14 +45,4 @@
       </div>
    </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#actionlogfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#actionlogtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

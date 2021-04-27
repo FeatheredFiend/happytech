@@ -25,8 +25,8 @@ class FeedbackResponseRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->createQueryBuilder('fr')
+        ->orderBy('fr.id', 'ASC');
 
         return $qb;
     }

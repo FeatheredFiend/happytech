@@ -12,14 +12,13 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('template_create') }}">Create Template</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="templatefilter">Filter Templates</label>
-      <input class="form-control" id="templatefilter" name="templatefilter" value="">
+      {{ knp_pagination_filter(pagination, {'t.name': 'Name', 'th.name': 'Template Header', 't.decommissioned': 'Decommissioned'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
                <th>Template ID</th>
                <th>Template Name</th>
-               <th>Template Header ID</th>
+               <th>Template Header</th>
                <th>Decommissioned</th>
             </tr>
          </thead>
@@ -44,14 +43,4 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#templatefilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#templatetable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

@@ -12,16 +12,14 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('job_create') }}">Create Job</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="jobfilter">Filter Jobs</label>
-      <input class="form-control" id="jobfilter" name="jobfilter" value="">
+      {{ knp_pagination_filter(pagination, {'j.name': 'Name', 'jc.name': 'Category', 'j.duedate': 'Due Date', 'j.decommissioned': 'Decommissioned'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
                <th>Job ID</th>
                <th>Job Name</th>
-               <th>Job Description</th>
                <th>Job Category</th>
-               <th>Job End Date</th>
+               <th>Job Due Date</th>
                <th>Decommissioned</th>
             </tr>
          </thead>
@@ -31,7 +29,6 @@
             <tr>
                <td><a class="nav-link" href="{{ path('job_edit', {'id': job.id}) }}">{{ job.id}}</a></td>
                <td>{{ job.name }}</td>
-               <td>{{ job.description }}</td>
                <td>{{ job.jobcategory }}</td>
                <td>{{ job.duedate|date('d-m-Y') }}</td>
                <td>{{ job.decommissioned ? 'Yes' : 'No' }}</td>
@@ -48,14 +45,4 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#jobfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#jobtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

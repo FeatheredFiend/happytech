@@ -25,10 +25,16 @@ class TemplateStatementRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('ts', 's','t')
+        ->from('App\Entity\TemplateStatement', 'ts')
+        ->leftJoin('ts.statement', 's')
+        ->leftJoin('ts.template', 't')
+        ->where('s.id > 0')
+        ->orderBy('ts.id', 'ASC');
 
-        return $qb;
+      return $qb;
     }
 
     // /**

@@ -46,7 +46,7 @@ class Job
     private $jobcategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=FeedbackResponse::class, mappedBy="jobid")
+     * @ORM\OneToMany(targetEntity=FeedbackResponse::class, mappedBy="job")
      */
     private $feedbackResponses;
 

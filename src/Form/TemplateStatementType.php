@@ -19,7 +19,7 @@ class TemplateStatementType extends AbstractType
     {
         $builder
             ->add('template', EntityType::class,['class' => Template::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Template'])
-            ->add('statement', EntityType::class,['class' => Statement::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'statement', 'label' => 'Statement'])
+            ->add('statement', EntityType::class,['class' => Statement::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'statementtext', 'label' => 'Statement'])
         ;
     }
 

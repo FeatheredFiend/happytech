@@ -25,7 +25,7 @@ class ActionLogController extends AbstractController
             $request->query->getInt('page', 1)/*page number*/,
             5/*limit per page*/
         );
- 
+
         //return new Response('Check out this great actionlog: '.$actionlog->getName()
         // or render a template
         // in the template, print things with {{ actionlog.name }}

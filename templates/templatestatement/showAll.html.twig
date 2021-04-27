@@ -12,14 +12,14 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('templatestatement_create') }}">Create Template Statement</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="statementfilter">Filter Template Statements</label>
-      <input class="form-control" id="statementfilter" name="statementfilter" value="">
+      {{ knp_pagination_filter(pagination, {'t.name': 'Template', 's.statement': 'Statement', 's.statementtext': 'Statement Text'}) }}
          <table class="table table-striped">
             <thead>
             <tr>
                <th>Template Statement ID</th>
                <th>Template</th>
                <th>Statement</th>
+               <th>Statement Text</th>
             </tr>
             </thead>
             <tbody name="statementtable" id="statementtable">
@@ -29,6 +29,7 @@
                   <td><a class="nav-link" href="{{ path('templatestatement_edit', {'id': templatestatement.id}) }}">{{ templatestatement.id}}</a></td>
                   <td>{{ templatestatement.template }}</td>
                   <td>{{ templatestatement.statement }}</td>
+                  <td>{{ templatestatement.statement.statementtext }}</td>
                </tr>
                {% endfor %}
             </tbody>
@@ -42,14 +43,4 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#statementfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#statementtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

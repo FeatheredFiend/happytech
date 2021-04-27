@@ -27,11 +27,13 @@ class ApplicantController extends AbstractController
     {
         $q = $request->query->get('q');
         $queryBuilder = $applicantRepository->getWithSearchQueryBuilder($q);
+
         $pagination = $paginator->paginate(
-            $queryBuilder, /* query NOT result */
+            $queryBuilder->getQuery(), /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
             5/*limit per page*/
         );
+
 
         //return new Response('Check out this great applicant: '.$applicant->getName()
         // or render a template

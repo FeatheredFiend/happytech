@@ -28,8 +28,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->createQueryBuilder('u')
+        ->orderBy('u.id', 'ASC');
 
         return $qb;
     }

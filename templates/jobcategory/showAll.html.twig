@@ -12,8 +12,7 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('jobcategory_create') }}">Create Job Category</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="jobcategoryfilter">Filter Job Categories</label>
-      <input class="form-control" id="jobcategoryfilter" name="jobcategoryfilter" value="">
+      {{ knp_pagination_filter(pagination, {'jc.name': 'Job', 'jc.decommissioned': 'Decommissioned'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
@@ -42,14 +41,4 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#jobcategoryfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#jobcategorytable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
 {% endblock %}

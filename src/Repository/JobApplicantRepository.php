@@ -25,8 +25,13 @@ class JobApplicantRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+        ->select('ja', 'j','a')
+        ->from('App\Entity\JobApplicant', 'ja')
+        ->leftJoin('ja.job', 'j')
+        ->leftJoin('ja.applicant', 'a')
+        ->orderBy('ja.id', 'ASC');
 
         return $qb;
     }

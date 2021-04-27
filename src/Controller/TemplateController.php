@@ -158,7 +158,7 @@ return $this->render('template/select.html.twig', array('pagination' => $paginat
     /**
      * @Route("/template/use/{id}", name="template_use", requirements = {"id": "\d+"}, defaults={"id" = 1})
      */
-    public function use(int $id, TemplateRepository $templateRepository, ApplicantRepository $applicantRepository, Request $request): Response
+    public function use(int $id, TemplateRepository $templateRepository, ApplicantRepository $applicantRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -203,11 +203,13 @@ if ($result_feedbackcheck) {
 
         $result_applicantjob = $applicantjobquery->fetchAll();
 
-        $statement_query = "SELECT DISTINCT statement.id, statement.statement,  IF(template_statement.id > 0, 'Selected',IF(feedback_response_statement.id > 0, 'Selected','Unselected')) as name FROM statement LEFT JOIN template_statement ON template_statement.statement_id = statement.id LEFT JOIN feedback_response_statement ON feedback_response_statement.statement_id = statement.id ORDER BY statement.id ASC";
-        $statementquery = $em->getConnection()->prepare($statement_query);
-        $statementquery->execute();
-
-        $result_statement = $statementquery->fetchAll();
+        $q = $request->query->get('q');
+        $queryBuilder = $templateRepository->getWithSearchQueryBuilderTemplateUse($q);
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            4/*limit per page*/
+        );
 
 
         $response_query = "SELECT id, template_id, applicant_id, comment, job_id FROM feedback_response WHERE template_id = '$id' and applicant_id = '$applicant' and job_id = '$jobid'";
@@ -216,7 +218,7 @@ if ($result_feedbackcheck) {
 
         $result_response = $responsequery->fetchAll();
 
-        return $this->render('template/use.html.twig', ['template' => $result_template, 'statement' => $result_statement, 'applicantjob' => $result_applicantjob, 'response' => $result_response]);
+        return $this->render('template/use.html.twig', ['pagination' => $pagination, 'template' => $result_template, 'applicantjob' => $result_applicantjob, 'response' => $result_response]);
 
     }
 
@@ -262,7 +264,7 @@ $templateid = $session->get('template');
 
         $result_applicantjob = $applicantjobquery->fetchAll();
 
-        $statement_query = "SELECT statement.id, statement.statement, feedback_response_statement.id, template_statement.id FROM statement LEFT JOIN feedback_response_statement ON feedback_response_statement.statement_id = statement.id LEFT JOIN template_statement ON template_statement.statement_id = statement.id WHERE feedback_response_statement.id > 0 OR template_statement.id > 0 and template_statement.template_id = '$templateid'";
+        $statement_query = "SELECT statement.id, statement.statement, statement.statementtext, feedback_response_statement.id, template_statement.id FROM statement LEFT JOIN feedback_response_statement ON feedback_response_statement.statement_id = statement.id LEFT JOIN template_statement ON template_statement.statement_id = statement.id WHERE feedback_response_statement.id > 0 OR template_statement.id > 0 and template_statement.template_id = '$templateid'";
         $statementquery = $em->getConnection()->prepare($statement_query);
         $statementquery->execute();
 

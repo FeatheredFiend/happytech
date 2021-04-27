@@ -21,9 +21,9 @@ class FeedbackResponseType extends AbstractType
     {
         $builder
             ->add('comment', TextType::class,['label' => 'Feedback Comment'])
-            ->add('template', EntityType::class,['class' => Template::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Template Name','attr' => ['readonly' => true]])
-            ->add('job', EntityType::class,['class' => Job::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Job Name','attr' => ['readonly' => true]])
-            ->add('applicant', EntityType::class,['class' => Applicant::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Applicant Name','attr' => ['readonly' => true]])
+            ->add('template', EntityType::class,['class' => Template::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Template Name'])
+            ->add('job', EntityType::class,['class' => Job::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Job Name'])
+            ->add('applicant', EntityType::class,['class' => Applicant::class, 'query_builder' => function (EntityRepository $er) {return $er->createQueryBuilder('u')->andWhere('u.decommissioned = 0');}, 'choice_label' => 'name', 'label' => 'Applicant Name'])
             ->add('feedback', FileType::class, [
                 'label' => 'PDF Feedback (PDF file)',
 

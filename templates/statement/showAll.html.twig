@@ -12,13 +12,13 @@
          <button type="button" class="btn btn-outline-primary btn-block"><a class="nav-link" href="{{ path('statement_create') }}">Create Statement</a></button>
       </div>
       {% if app.user != null %}
-      <label class="form-label" for="statementfilter">Filter Statements</label>
-      <input class="form-control" id="statementfilter" name="statementfilter" value="">
+      {{ knp_pagination_filter(pagination, {'s.statement': 'Name', 's.statementtext': 'Statement', 's.decommissioned': 'Decommissioned'}) }}
       <table class="table table-striped">
          <thead>
             <tr>
                <th>Statement ID</th>
                <th>Statement Name</th>
+               <th>Statement Text</th>
                <th>Decommissioned</th>
             </tr>
          </thead>
@@ -28,6 +28,7 @@
             <tr>
                <td><a class="nav-link" href="{{ path('statement_edit', {'id': statement.id}) }}">{{ statement.id}}</a></td>
                <td>{{ statement.statement }}</td>
+               <td>{{ statement.statementtext }}</td>
                <td>{{ statement.decommissioned ? 'Yes' : 'No' }}</td>
             </tr>
             {% endfor %}
@@ -42,14 +43,5 @@
    </div>
 </div>
 </div>
-<script>
-   $(document).ready(function(){
-     $("#statementfilter").on("keyup", function() {
-       var value = $(this).val().toLowerCase();
-       $("#statementtable tr").filter(function() {
-         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-       });
-     });
-   });
-</script> 
+
 {% endblock %}

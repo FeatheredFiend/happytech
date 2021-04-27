@@ -24,8 +24,8 @@ class StatementRepository extends ServiceEntityRepository
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a')
-        ->orderBy('a.id', 'ASC');
+        $qb = $this->createQueryBuilder('s')
+        ->orderBy('s.id', 'ASC');
 
         return $qb;
     }
